@@ -94,7 +94,7 @@ export default function Hero() {
         >
           <motion.a
             href="#archive-library"
-            className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-neon text-neon rounded hover:bg-neon hover:text-black transition-colors shadow-neon"
+            className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-neon text-neon rounded-none hover:bg-neon hover:text-black transition-colors shadow-neon"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(0, 255, 156, 0.5)" }}
             whileTap={{ scale: 0.98 }}
           >
@@ -102,7 +102,7 @@ export default function Hero() {
           </motion.a>
           <motion.a
             href="#simulation"
-            className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-cyan text-cyan rounded hover:bg-cyan hover:text-black transition-colors shadow-cyan"
+            className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-cyan text-cyan rounded-none hover:bg-cyan hover:text-black transition-colors shadow-cyan"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(0, 234, 255, 0.5)" }}
             whileTap={{ scale: 0.98 }}
           >

@@ -44,7 +44,7 @@ export default function AISimulation() {
         </motion.p>
 
         <motion.div
-          className="border-2 border-neon/40 rounded-xl overflow-hidden bg-black/80 backdrop-blur-sm"
+          className="border-2 border-neon/40 rounded-none overflow-hidden bg-black/80 backdrop-blur-sm"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

@@ -74,7 +74,7 @@ export default function Roadmap() {
                     i % 2 === 1 ? "md:pr-8 md:text-right" : "md:pl-8"
                   }`}
                 >
-                  <div className="border border-neon/40 rounded-lg p-6 bg-black/50 backdrop-blur-sm hover:border-neon/60 transition-colors">
+                  <div className="border border-neon/40 rounded-none p-6 bg-black/50 backdrop-blur-sm hover:border-neon/60 transition-colors">
                     <span className="font-mono text-cyan text-sm uppercase tracking-wider">
                       Phase {p.phase}
                     </span>

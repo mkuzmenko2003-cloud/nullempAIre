@@ -33,7 +33,7 @@ export default function TokenSection() {
         </motion.p>
 
         <motion.div
-          className="relative border-2 border-neon/50 rounded-xl p-8 md:p-12 bg-black/60 backdrop-blur-sm overflow-hidden"
+          className="relative border-2 border-neon/50 rounded-none p-8 md:p-12 bg-black/60 backdrop-blur-sm overflow-hidden"
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

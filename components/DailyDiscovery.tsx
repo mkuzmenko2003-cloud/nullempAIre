@@ -46,7 +46,7 @@ export default function DailyDiscovery() {
         </motion.p>
 
         <motion.div
-          className="border-2 border-cyan/40 rounded-xl p-6 md:p-8 bg-black/60 backdrop-blur-sm"
+          className="border-2 border-cyan/40 rounded-none p-6 md:p-8 bg-black/60 backdrop-blur-sm"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

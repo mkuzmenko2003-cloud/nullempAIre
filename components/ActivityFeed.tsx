@@ -38,7 +38,7 @@ export default function ActivityFeed() {
         </motion.h2>
 
         <motion.div
-          className="border border-neon/30 rounded-lg overflow-hidden bg-black/60 backdrop-blur-sm max-h-[280px] overflow-y-auto"
+          className="border border-neon/30 rounded-none overflow-hidden bg-black/60 backdrop-blur-sm max-h-[280px] overflow-y-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}

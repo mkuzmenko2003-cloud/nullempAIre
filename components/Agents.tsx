@@ -60,7 +60,7 @@ export default function Agents() {
           {agents.map((agent, i) => (
             <motion.div
               key={agent.id}
-              className="group relative border border-neon/30 rounded-lg p-6 md:p-8 bg-black/50 backdrop-blur-sm overflow-hidden"
+              className="group relative border border-neon/30 rounded-none p-6 md:p-8 bg-black/50 backdrop-blur-sm overflow-hidden"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

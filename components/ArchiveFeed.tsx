@@ -38,7 +38,7 @@ export default function ArchiveFeed({ items }: ArchiveFeedProps) {
   }, [items.length]);
 
   return (
-    <div className="border-2 border-cyan/40 rounded-xl overflow-hidden bg-black/80 backdrop-blur-sm h-full min-h-[280px] flex flex-col">
+    <div className="border-2 border-cyan/40 rounded-none overflow-hidden bg-black/80 backdrop-blur-sm h-full min-h-[280px] flex flex-col">
       <div className="px-4 py-3 border-b border-cyan/30 bg-cyan/5 flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-cyan" />
         <span className="font-mono text-xs text-cyan/90 uppercase tracking-wider">

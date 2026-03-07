@@ -37,7 +37,7 @@ function ArchiveAnalysisModal({
       onClick={onClose}
     >
       <motion.div
-        className="border-2 border-neon/50 rounded-xl bg-black max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-[0_0_40px_rgba(0,255,156,0.2)]"
+        className="border-2 border-neon/50 rounded-none bg-black max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-[0_0_40px_rgba(0,255,156,0.2)]"
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
@@ -89,14 +89,14 @@ function ArchiveAnalysisModal({
             <button
               onClick={handleAgree}
               disabled={voted !== null}
-              className="flex-1 py-3 font-mono text-sm border-2 border-neon text-neon rounded hover:bg-neon hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 font-mono text-sm border-2 border-neon text-neon rounded-none hover:bg-neon hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {voted === "agree" ? "Agreed" : "Agree with AI"}
             </button>
             <button
               onClick={handleReject}
               disabled={voted !== null}
-              className="flex-1 py-3 font-mono text-sm border-2 border-cyan text-cyan rounded hover:bg-cyan hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 font-mono text-sm border-2 border-cyan text-cyan rounded-none hover:bg-cyan hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {voted === "reject" ? "Rejected" : "Reject Interpretation"}
             </button>
@@ -144,7 +144,7 @@ export default function ArchiveLibrary() {
           {ARCHIVE_ARTIFACTS.map((artifact, i) => (
             <motion.button
               key={artifact.id}
-              className="text-left border border-neon/30 rounded-lg p-4 bg-black/50 backdrop-blur-sm hover:border-neon/60 hover:shadow-[0_0_20px_rgba(0,255,156,0.1)] transition-all"
+              className="text-left border border-neon/30 rounded-none p-4 bg-black/50 backdrop-blur-sm hover:border-neon/60 hover:shadow-[0_0_20px_rgba(0,255,156,0.1)] transition-all"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

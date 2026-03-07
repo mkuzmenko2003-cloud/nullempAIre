@@ -117,14 +117,14 @@ export default function FakeAISimulation() {
           {/* Simulation terminal */}
           <div className="lg:col-span-3 space-y-4">
             <motion.div
-              className="relative border-2 border-neon/50 rounded-xl overflow-hidden bg-black shadow-[0_0_30px_rgba(0,255,156,0.08)]"
+              className="relative border-2 border-neon/50 rounded-none overflow-hidden bg-black shadow-[0_0_30px_rgba(0,255,156,0.08)]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               whileHover={{ boxShadow: "0 0 40px rgba(0, 255, 156, 0.12)" }}
             >
               {/* Scan line overlay */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-xl">
+              <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-none">
                 <div className="ai-terminal-scan" />
               </div>
 
@@ -143,7 +143,7 @@ export default function FakeAISimulation() {
                       </p>
                       <motion.button
                         onClick={handleStart}
-                        className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-neon text-neon rounded-lg hover:bg-neon hover:text-black transition-colors shadow-[0_0_20px_rgba(0,255,156,0.25)]"
+                        className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-neon text-neon rounded-none hover:bg-neon hover:text-black transition-colors shadow-[0_0_20px_rgba(0,255,156,0.25)]"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
@@ -231,7 +231,7 @@ export default function FakeAISimulation() {
               >
                 <button
                   onClick={handleStop}
-                  className="font-mono text-xs text-cyan/80 hover:text-cyan border border-cyan/40 px-4 py-2 rounded transition-colors"
+                  className="font-mono text-xs text-cyan/80 hover:text-cyan border border-cyan/40 px-4 py-2 rounded-none transition-colors"
                 >
                   Stop simulation
                 </button>
