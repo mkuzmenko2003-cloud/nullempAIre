@@ -10,10 +10,7 @@ const RADIUS = 200;
 type Node = { id: number; archive: ArchiveEntry; x: number; y: number };
 type Edge = { a: number; b: number };
 
-function buildGraph(
-  archives: ArchiveEntry[],
-  currentId: number | null
-): { nodes: Node[]; edges: Edge[] } {
+function buildGraph(archives: ArchiveEntry[]): { nodes: Node[]; edges: Edge[] } {
   const subset = archives.slice(0, NODE_COUNT);
   const nodes: Node[] = [];
   const edges: Edge[] = [];
@@ -47,8 +44,8 @@ function buildGraph(
     nodes.push({
       id: archive.id,
       archive,
-      x: RADIUS + RADIUS * Math.cos(angle) + (Math.random() - 0.5) * 40,
-      y: RADIUS + RADIUS * Math.sin(angle) + (Math.random() - 0.5) * 40,
+      x: RADIUS + RADIUS * Math.cos(angle),
+      y: RADIUS + RADIUS * Math.sin(angle),
     });
   });
 
@@ -61,10 +58,8 @@ export default function ArchiveNetworkGraph({
   highlightedArchiveId?: number | null;
 }) {
   const [currentId, setCurrentId] = useState<number | null>(highlightedArchiveId);
-  const { nodes, edges } = useMemo(
-    () => buildGraph(ARCHIVES, currentId ?? null),
-    [currentId]
-  );
+  // Stable layout: build once from ARCHIVES, no dependency on currentId so graph doesn't move
+  const { nodes, edges } = useMemo(() => buildGraph(ARCHIVES), []);
 
   useEffect(() => {
     setCurrentId(highlightedArchiveId);

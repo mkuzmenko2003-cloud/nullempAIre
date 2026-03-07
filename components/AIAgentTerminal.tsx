@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { generateAgentMessage, type AgentMessage } from "@/utils/generateAgentMessage";
 import { generateReasoningChain } from "@/utils/generateReasoningChain";
 import { getRandomArchive } from "@/data/archives";
 import type { ArchiveEntry } from "@/data/archives";
 
-const MAX_MESSAGES = 50;
-const MESSAGE_INTERVAL_MS = 2000 + Math.random() * 2000; // 2–4 sec
-const REASONING_TYPING_MS = 80;
+const MAX_MESSAGES = 20;
+const MESSAGE_INTERVAL_MS = 9000; // one message every 9 sec (was 2–4 sec)
+const REASONING_TYPING_MS = 100;
+const DISPLAY_MESSAGES = 12;
 const SYSTEM_STATUS_MSGS = [
   "Scanning archive clusters...",
   "Analyzing memetic signals...",
@@ -35,7 +36,7 @@ export default function AIAgentTerminal({
   const feedRef = useRef<HTMLDivElement>(null);
   const reasoningChainRef = useRef<string[]>([]);
 
-  // Live agent messages every 2–4 sec
+  // Live agent messages every 9 sec (reduced from 2–4 to prevent flood and lag)
   useEffect(() => {
     const tick = () => {
       const msg = generateAgentMessage();
@@ -47,8 +48,8 @@ export default function AIAgentTerminal({
       setReasoningIndex(0);
       setReasoningDisplay("");
     };
-    tick();
     const id = setInterval(tick, MESSAGE_INTERVAL_MS);
+    tick(); // one message on mount
     return () => clearInterval(id);
   }, [onArchiveChange]);
 
@@ -70,21 +71,16 @@ export default function AIAgentTerminal({
     return () => clearInterval(id);
   }, [reasoningSteps, reasoningIndex]);
 
-  // Rotate system status
+  // Rotate system status every 8 sec (less flicker)
   useEffect(() => {
     const id = setInterval(() => {
       setSystemStatus(SYSTEM_STATUS_MSGS[Math.floor(Math.random() * SYSTEM_STATUS_MSGS.length)]);
-    }, 3000);
+    }, 8000);
     return () => clearInterval(id);
   }, []);
 
-  // Auto-scroll feed
-  useEffect(() => {
-    feedRef.current?.scrollTo(0, 0);
-  }, [messages]);
-
   return (
-    <section className="py-16 md:py-24 px-4 section-content">
+    <section className="py-10 md:py-14 px-4 section-content">
       <div className="max-w-7xl mx-auto">
         <motion.h2
           className="font-display text-2xl sm:text-3xl font-bold text-neon mb-2 text-center"
@@ -103,39 +99,34 @@ export default function AIAgentTerminal({
           Live agent network · Archive excavation simulation
         </motion.p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 border-2 border-neon/40 rounded-none overflow-hidden bg-black/90 backdrop-blur-sm">
-          {/* LEFT: Live AI conversation feed */}
-          <div className="border-r border-neon/30 flex flex-col min-h-[360px]">
-            <div className="px-4 py-2 border-b border-neon/30 bg-black/60 font-mono text-xs text-neon/80 uppercase">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 border-2 border-neon/40 rounded-none overflow-hidden bg-black/90 backdrop-blur-sm max-h-[320px]">
+          {/* LEFT: Live AI conversation feed — capped height, fewer messages */}
+          <div className="border-r border-neon/30 flex flex-col min-h-[240px] max-h-[320px]">
+            <div className="px-4 py-2 border-b border-neon/30 bg-black/60 font-mono text-xs text-neon/80 uppercase shrink-0">
               Live agent feed
             </div>
             <div
               ref={feedRef}
-              className="flex-1 overflow-y-auto p-3 space-y-2 font-mono text-xs"
+              className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-1.5 font-mono text-xs min-h-0"
             >
-              <AnimatePresence initial={false}>
-                {messages.slice(0, 25).map((m) => (
-                  <motion.div
-                    key={m.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="border-l-2 border-cyan/50 pl-2 py-1 text-white/90"
-                  >
-                    <span className="text-cyan/90">[{m.agent.name}]</span>{" "}
-                    {m.text}
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+              {messages.slice(0, DISPLAY_MESSAGES).map((m) => (
+                <div
+                  key={m.id}
+                  className="border-l-2 border-cyan/50 pl-2 py-0.5 text-white/90"
+                >
+                  <span className="text-cyan/90">[{m.agent.name}]</span>{" "}
+                  {m.text}
+                </div>
+              ))}
             </div>
           </div>
 
           {/* CENTER: Current archive */}
-          <div className="border-r border-neon/30 flex flex-col min-h-[360px]">
-            <div className="px-4 py-2 border-b border-neon/30 bg-black/60 font-mono text-xs text-neon/80 uppercase">
+          <div className="border-r border-neon/30 flex flex-col min-h-[240px] max-h-[320px] min-w-0">
+            <div className="px-4 py-2 border-b border-neon/30 bg-black/60 font-mono text-xs text-neon/80 uppercase shrink-0">
               Current archive
             </div>
-            <div className="flex-1 overflow-y-auto p-4 font-mono text-sm space-y-2">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 font-mono text-sm space-y-2 min-h-0">
               {currentArchive ? (
                 <motion.div
                   key={currentArchive.id}
@@ -183,11 +174,11 @@ export default function AIAgentTerminal({
           </div>
 
           {/* RIGHT: AI reasoning chain */}
-          <div className="flex flex-col min-h-[360px]">
-            <div className="px-4 py-2 border-b border-neon/30 bg-black/60 font-mono text-xs text-neon/80 uppercase">
+          <div className="flex flex-col min-h-[240px] max-h-[320px] min-w-0">
+            <div className="px-4 py-2 border-b border-neon/30 bg-black/60 font-mono text-xs text-neon/80 uppercase shrink-0">
               Reasoning chain
             </div>
-            <div className="flex-1 overflow-y-auto p-4 font-mono text-xs text-white/80 space-y-1">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 font-mono text-xs text-white/80 space-y-1 min-h-0">
               {reasoningSteps.slice(0, reasoningIndex).map((step, i) => (
                 <div key={i} className="text-neon/90">
                   {step}
