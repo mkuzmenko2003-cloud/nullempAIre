@@ -5,6 +5,8 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./data/**/*.{js,ts}",
+    "./utils/**/*.{js,ts}",
   ],
   theme: {
     extend: {
@@ -12,6 +14,7 @@ const config: Config = {
         nullblack: "#000000",
         neon: "#00ff9c",
         cyan: "#00eaff",
+        magenta: "#ff00c8",
       },
       fontFamily: {
         mono: ["var(--font-jetbrains)", "monospace"],

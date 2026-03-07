@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ARCHIVES, type ArchiveItem } from "@/data/archives";
+import { ARCHIVES, type ArchiveEntry } from "@/data/archives";
 import ArchiveFeed, { type FeedDiscovery } from "./ArchiveFeed";
 
 type Phase = "idle" | "scanning" | "found" | "interpretation";
@@ -15,7 +15,7 @@ const NEXT_CYCLE_DELAY_MS = 1800;
 export default function FakeAISimulation() {
   const [isRunning, setIsRunning] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
-  const [currentArchive, setCurrentArchive] = useState<ArchiveItem | null>(null);
+  const [currentArchive, setCurrentArchive] = useState<ArchiveEntry | null>(null);
   const [feedItems, setFeedItems] = useState<FeedDiscovery[]>([]);
   const [scanText, setScanText] = useState("AI scanning archives");
   const sequenceRef = useRef(0);
@@ -23,7 +23,7 @@ export default function FakeAISimulation() {
   const isRunningRef = useRef(false);
   isRunningRef.current = isRunning;
 
-  const pushToFeed = useCallback((archive: ArchiveItem) => {
+  const pushToFeed = useCallback((archive: ArchiveEntry) => {
     sequenceRef.current += 1;
     setFeedItems((prev) => [
       {

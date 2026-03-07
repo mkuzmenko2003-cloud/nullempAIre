@@ -14,10 +14,15 @@ import ActivityFeed from "./ActivityFeed";
 import TokenSection from "./TokenSection";
 import Roadmap from "./Roadmap";
 import DailyDiscovery from "./DailyDiscovery";
+import AIAgentTerminal from "./AIAgentTerminal";
+import ArchiveNetworkGraph from "./ArchiveNetworkGraph";
+import HiddenTerminal from "./HiddenTerminal";
+import GlitchEvents from "./GlitchEvents";
 import Footer from "./Footer";
 
 export default function AppShell() {
   const [bootComplete, setBootComplete] = useState(false);
+  const [highlightedArchiveId, setHighlightedArchiveId] = useState<number | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -55,8 +60,12 @@ export default function AppShell() {
           <ActivityFeed />
           <TokenSection />
           <Roadmap />
+          <AIAgentTerminal onArchiveChange={(a) => setHighlightedArchiveId(a?.id ?? null)} />
+          <ArchiveNetworkGraph highlightedArchiveId={highlightedArchiveId} />
           <DailyDiscovery />
           <Footer />
+          <HiddenTerminal />
+          <GlitchEvents />
         </main>
       )}
     </>
