@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ARCHIVE_ARTIFACTS, type ArchiveArtifact } from "@/lib/archiveData";
 
@@ -20,10 +20,12 @@ function ArchiveAnalysisModal({
   const handleAgree = () => {
     setVoted("agree");
     onAgree();
+    setTimeout(() => onClose(), 400);
   };
   const handleReject = () => {
     setVoted("reject");
     onReject();
+    setTimeout(() => onClose(), 400);
   };
 
   return (
@@ -107,6 +109,16 @@ function ArchiveAnalysisModal({
 
 export default function ArchiveLibrary() {
   const [selected, setSelected] = useState<ArchiveArtifact | null>(null);
+
+  useEffect(() => {
+    if (selected) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [selected]);
 
   return (
     <section id="archive-library" className="py-20 md:py-28 px-6 section-content">
