@@ -13,7 +13,6 @@ import Terminal from "./Terminal";
 import ActivityFeed from "./ActivityFeed";
 import TokenSection from "./TokenSection";
 import Roadmap from "./Roadmap";
-import LetAIAnalyzeYou from "./LetAIAnalyzeYou";
 import DailyDiscovery from "./DailyDiscovery";
 import Footer from "./Footer";
 
@@ -56,7 +55,6 @@ export default function AppShell() {
           <ActivityFeed />
           <TokenSection />
           <Roadmap />
-          <LetAIAnalyzeYou />
           <DailyDiscovery />
           <Footer />
         </main>
