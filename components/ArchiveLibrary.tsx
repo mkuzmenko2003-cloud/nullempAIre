@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ARCHIVE_ARTIFACTS, getArtifactById, type ArchiveArtifact } from "@/lib/archiveData";
 
@@ -35,14 +36,22 @@ function ArchiveAnalysisModal({
     .filter((a): a is ArchiveArtifact => a != null);
 
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      onClick={onClose}
-    >
+    <>
+      {/* Гарантированный непрозрачный фон на весь viewport */}
+      <div
+        className="fixed inset-0 bg-black"
+        style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 9998, background: "#000" }}
+        aria-hidden
+      />
+      <motion.div
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black"
+        style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "#000" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+      >
       <motion.div
         className="border-2 border-neon/50 rounded-none bg-black w-full max-w-3xl max-h-[90vh] overflow-y-auto archive-modal-scroll shadow-[0_0_60px_rgba(0,255,156,0.15)]"
         initial={{ scale: 0.96, opacity: 0 }}
@@ -51,7 +60,7 @@ function ArchiveAnalysisModal({
         transition={{ duration: 0.2 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 z-10 flex justify-between items-center px-6 py-4 border-b border-neon/30 bg-black/95 backdrop-blur-sm">
+        <div className="sticky top-0 z-10 flex justify-between items-center px-6 py-4 border-b border-neon/30 bg-black">
           <h3 className="font-display text-lg font-bold text-neon">
             ARCHIVE DATABASE
           </h3>
@@ -218,23 +227,26 @@ function ArchiveAnalysisModal({
               {voted === "reject" ? "Rejected" : "Reject Interpretation"}
             </button>
           </div>
-        </div>
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </>
   );
 }
 
 export default function ArchiveLibrary() {
   const [selected, setSelected] = useState<ArchiveArtifact | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
-    if (selected) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = prev;
-      };
-    }
+    if (!selected) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [selected]);
 
   return (
@@ -283,18 +295,23 @@ export default function ArchiveLibrary() {
         </div>
       </div>
 
-      <AnimatePresence mode="wait">
-        {selected && (
-          <ArchiveAnalysisModal
-            key={selected.id}
-            artifact={selected}
-            onClose={() => setSelected(null)}
-            onAgree={() => {}}
-            onReject={() => {}}
-            onSelectRelated={(a) => setSelected(a)}
-          />
+      {mounted &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence mode="wait">
+            {selected && (
+              <ArchiveAnalysisModal
+                key={selected.id}
+                artifact={selected}
+                onClose={() => setSelected(null)}
+                onAgree={() => {}}
+                onReject={() => {}}
+                onSelectRelated={(a) => setSelected(a)}
+              />
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </section>
   );
 }
