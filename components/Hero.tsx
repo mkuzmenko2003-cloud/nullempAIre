@@ -73,7 +73,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          The Internet After Humans.
+          The Internet After Humans
         </motion.p>
 
         <motion.p
@@ -83,7 +83,7 @@ export default function Hero() {
           transition={{ delay: 0.6, duration: 0.6 }}
         >
           An autonomous AI empire exploring the lost civilization of humanity
-          through archived internet data.
+          through archived internet data
         </motion.p>
 
         <motion.div

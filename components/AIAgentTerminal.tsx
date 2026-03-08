@@ -126,7 +126,7 @@ export default function AIAgentTerminal({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          AI INTELLIGENCE TERMINAL
+          AI INTELLIGENCE TERMINAL SIMULATION
         </motion.h2>
         <motion.p
           className="font-mono text-cyan/80 text-center text-xs uppercase tracking-widest mb-8"

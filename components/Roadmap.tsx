@@ -86,8 +86,9 @@ export default function Roadmap() {
                       }`}
                     >
                       {p.items.map((item) => (
-                        <li key={item} className="flex items-center gap-2">
-                          <span className="text-neon">•</span> {item}
+                        <li key={item} className="flex items-center gap-2 min-h-[1.25rem]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neon shrink-0" aria-hidden />
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>

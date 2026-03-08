@@ -53,7 +53,7 @@ export default function TokenSection() {
             </p>
 
             <div className="border-t border-neon/30 pt-8">
-              <p className="font-mono text-cyan text-xs uppercase tracking-widest mb-4">
+              <p className="font-mono text-cyan text-base md:text-lg uppercase tracking-widest mb-4">
                 Functions
               </p>
               <ul className="space-y-3">
