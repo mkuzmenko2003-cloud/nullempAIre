@@ -36,17 +36,19 @@ function ArchiveAnalysisModal({
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
       onClick={onClose}
     >
       <motion.div
-        className="border-2 border-neon/50 rounded-none bg-black w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-[0_0_60px_rgba(0,255,156,0.15)]"
+        className="border-2 border-neon/50 rounded-none bg-black w-full max-w-3xl max-h-[90vh] overflow-y-auto archive-modal-scroll shadow-[0_0_60px_rgba(0,255,156,0.15)]"
         initial={{ scale: 0.96, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.96, opacity: 0 }}
+        transition={{ duration: 0.2 }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10 flex justify-between items-center px-6 py-4 border-b border-neon/30 bg-black/95 backdrop-blur-sm">
@@ -167,7 +169,7 @@ function ArchiveAnalysisModal({
                 {artifact.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-xs px-3 py-1 border border-neon/30 text-white/80"
+                    className="font-mono text-xs px-3 py-1 border border-neon/30 text-white/80 cursor-default transition-all duration-200 hover:border-neon/60 hover:shadow-[0_0_12px_rgba(0,255,156,0.2)]"
                   >
                     {tag}
                   </span>
@@ -188,7 +190,7 @@ function ArchiveAnalysisModal({
                     key={a.id}
                     type="button"
                     onClick={() => onSelectRelated?.(a)}
-                    className="font-mono text-xs px-3 py-2 border border-cyan/40 text-cyan/90 hover:bg-cyan/10 hover:border-cyan/60 transition-colors text-left"
+                    className="font-mono text-xs px-3 py-2 border border-cyan/40 text-cyan/90 cursor-pointer transition-all duration-200 hover:bg-cyan/10 hover:border-cyan/60 hover:shadow-[0_0_12px_rgba(0,234,255,0.15)] text-left"
                   >
                     {a.title} <span className="text-white/50">({a.year})</span>
                   </button>
@@ -197,42 +199,21 @@ function ArchiveAnalysisModal({
             </section>
           )}
 
-          {/* Links */}
-          {artifact.links && artifact.links.length > 0 && (
-            <section>
-              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
-                External references
-              </h4>
-              <ul className="space-y-2">
-                {artifact.links.map((link, i) => (
-                  <li key={i}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-sm text-neon/90 hover:text-neon underline"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
           {/* Actions */}
           <div className="pt-6 border-t border-neon/30 flex gap-4">
             <button
+              type="button"
               onClick={handleAgree}
               disabled={voted !== null}
-              className="flex-1 py-3 font-mono text-sm border-2 border-neon text-neon rounded-none hover:bg-neon hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 font-mono text-sm border-2 border-neon text-neon rounded-none cursor-pointer transition-all duration-200 hover:bg-neon hover:text-black hover:shadow-[0_0_20px_rgba(0,255,156,0.3)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-neon disabled:hover:shadow-none"
             >
               {voted === "agree" ? "Agreed" : "Agree with AI"}
             </button>
             <button
+              type="button"
               onClick={handleReject}
               disabled={voted !== null}
-              className="flex-1 py-3 font-mono text-sm border-2 border-cyan text-cyan rounded-none hover:bg-cyan hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-3 font-mono text-sm border-2 border-cyan text-cyan rounded-none cursor-pointer transition-all duration-200 hover:bg-cyan hover:text-black hover:shadow-[0_0_20px_rgba(0,234,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-cyan disabled:hover:shadow-none"
             >
               {voted === "reject" ? "Rejected" : "Reject Interpretation"}
             </button>
@@ -280,7 +261,7 @@ export default function ArchiveLibrary() {
           {ARCHIVE_ARTIFACTS.map((artifact, i) => (
             <motion.button
               key={artifact.id}
-              className="text-left border border-neon/30 rounded-none p-4 bg-black/50 backdrop-blur-sm transition-all duration-300 hover:border-neon/50 hover:shadow-[0_0_20px_rgba(0,255,156,0.12)]"
+              className="text-left border border-neon/30 rounded-none p-4 bg-black/50 backdrop-blur-sm cursor-pointer transition-all duration-300 hover:border-neon/60 hover:shadow-[0_0_28px_rgba(0,255,156,0.22)]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

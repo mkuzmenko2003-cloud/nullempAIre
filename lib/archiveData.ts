@@ -42,10 +42,6 @@ export const ARCHIVE_ARTIFACTS: ArchiveArtifact[] = [
       { label: "Cultural penetration", value: "High" },
       { label: "Archive completeness", value: "87%" },
     ],
-    links: [
-      { label: "Original announcement", href: "#" },
-      { label: "Community archive", href: "#" },
-    ],
     agentNotes: [
       "ARCHIVIST-01: Cross-referenced with Pepe and NFT clusters.",
       "MEMETIC ANALYZER: Viral propagation pattern matches meme economy template.",
