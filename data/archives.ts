@@ -227,3 +227,12 @@ export function getArchivesByTag(tag: string): ArchiveEntry[] {
 export function getRandomArchive(): ArchiveEntry {
   return ARCHIVES[Math.floor(Math.random() * ARCHIVES.length)];
 }
+
+/** Number of archives shown as nodes in Archive network graph (terminal uses same set for sync). */
+export const GRAPH_NODE_COUNT = 60;
+
+/** Random archive from the graph subset so terminal highlight matches a visible node. */
+export function getRandomArchiveInGraph(): ArchiveEntry {
+  const n = Math.min(GRAPH_NODE_COUNT, ARCHIVES.length);
+  return ARCHIVES[Math.floor(Math.random() * n)];
+}

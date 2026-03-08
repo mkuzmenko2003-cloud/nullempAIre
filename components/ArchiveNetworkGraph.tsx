@@ -2,9 +2,9 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ARCHIVES, type ArchiveEntry } from "@/data/archives";
+import { ARCHIVES, GRAPH_NODE_COUNT, type ArchiveEntry } from "@/data/archives";
 
-const NODE_COUNT = 60;
+const NODE_COUNT = GRAPH_NODE_COUNT;
 const RADIUS = 200;
 const NODE_R = 4;
 const NODE_R_HOVER = 6;

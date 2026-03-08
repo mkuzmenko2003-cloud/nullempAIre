@@ -2,7 +2,7 @@
  * Generates live AI agent messages: random archive + random agent → message.
  */
 
-import { getRandomArchive } from "@/data/archives";
+import { getRandomArchiveInGraph } from "@/data/archives";
 import { getRandomAgent, type Agent } from "@/data/agents";
 import type { ArchiveEntry } from "@/data/archives";
 
@@ -108,7 +108,7 @@ function getPhrasesForAgent(agentId: string): string[] {
 }
 
 export function generateAgentMessage(): AgentMessage {
-  const archive = getRandomArchive();
+  const archive = getRandomArchiveInGraph();
   const agent = getRandomAgent();
   const phrases = getPhrasesForAgent(agent.id);
   const phrase = phrases[Math.floor(Math.random() * phrases.length)];
