@@ -206,3 +206,34 @@ body {
   }
 }
 
+/* ACG / Fartcoin-style terminal blocks */
+.terminal-block {
+  border: 1px solid rgba(0, 255, 156, 0.35);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+.terminal-block-title {
+  color: var(--neon);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.terminal-block-dash {
+  color: rgba(0, 255, 156, 0.5);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.ascii-art {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  white-space: pre;
+  line-height: 1.1;
+  color: var(--neon);
+  font-size: clamp(0.4rem, 2vw, 0.6rem);
+  overflow-x: auto;
+}
+

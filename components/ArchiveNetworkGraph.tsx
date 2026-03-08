@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ARCHIVES, ARCHIVES_GRAPH_SIZE, type ArchiveEntry } from "@/data/archives";
+import TerminalBlock from "./TerminalBlock";
 const RADIUS = 200;
 const NODE_R = 4;
 const NODE_R_HOVER = 6;
@@ -96,17 +97,14 @@ export default function ArchiveNetworkGraph({
   return (
     <section className="py-12 px-4 section-content">
       <div className="max-w-4xl mx-auto">
-        <h3 className="font-display text-xl font-bold text-neon mb-4 text-center">
-          Archive network
-        </h3>
-        <p className="font-mono text-cyan/80 text-center text-xs uppercase tracking-widest mb-6">
-          Nodes = archives · Edges = shared tags
-        </p>
-
-        <div
-          className="relative border-2 border-neon/40 rounded-none overflow-hidden bg-black/80 backdrop-blur-sm"
-          style={{ height: 420 }}
-        >
+        <TerminalBlock title="ARCHIVE NETWORK">
+          <p className="font-mono text-cyan/80 text-xs uppercase tracking-widest mb-4">
+            Nodes = archives · Edges = shared tags
+          </p>
+          <div
+            className="relative border border-neon/30 rounded-none overflow-hidden bg-black/90"
+            style={{ height: 400 }}
+          >
           <svg
             width="100%"
             height="100%"
@@ -215,6 +213,7 @@ export default function ArchiveNetworkGraph({
             </motion.p>
           )}
         </AnimatePresence>
+        </TerminalBlock>
       </div>
     </section>
   );

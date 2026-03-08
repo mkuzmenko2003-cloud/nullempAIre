@@ -44,16 +44,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,156,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,156,0.03)_1px,transparent_1px)] bg-[size:24px_24px]" />
-        <div className="relative font-mono text-sm sm:text-base text-neon space-y-2 max-w-md w-full">
-          <motion.p
-            className="text-cyan/80 mb-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            &gt; SYSTEM BOOT
-          </motion.p>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,156,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,156,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
+        <div className="relative terminal-block max-w-lg w-full font-mono text-sm text-neon space-y-2">
+          <div className="terminal-block-title">&gt; SYSTEM BOOT</div>
+          <div className="terminal-block-dash">---------------------</div>
           {BOOT_MESSAGES.slice(0, currentLine).map((line, i) => (
             <motion.p
               key={i}
