@@ -32,9 +32,9 @@ export default function Footer() {
             <Image
               src="/pump-fun-seeklogo.svg"
               alt=""
-              width={24}
-              height={24}
-              className="w-6 h-6 shrink-0"
+              width={20}
+              height={20}
+              className="w-5 h-5 shrink-0"
               aria-hidden
             />
             Pump.fun

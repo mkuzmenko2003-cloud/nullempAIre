@@ -225,22 +225,22 @@ body {
   background: #1a1a1a;
 }
 
-/* AI Terminal — Live agent feed scrollbar, тёмный */
+/* AI Terminal — Live agent feed scrollbar, ползунок светлее */
 .terminal-feed-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #0d0d0d #000000;
+  scrollbar-color: #404040 #1a1a1a;
 }
 .terminal-feed-scroll::-webkit-scrollbar {
   width: 8px;
 }
 .terminal-feed-scroll::-webkit-scrollbar-track {
-  background: #000000;
+  background: #1a1a1a;
 }
 .terminal-feed-scroll::-webkit-scrollbar-thumb {
-  background: #0d0d0d;
+  background: #404040;
   border-radius: 0;
 }
 .terminal-feed-scroll::-webkit-scrollbar-thumb:hover {
-  background: #1a1a1a;
+  background: #00ff9c;
 }
 
