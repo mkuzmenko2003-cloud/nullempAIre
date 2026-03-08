@@ -82,12 +82,17 @@ export default function Roadmap() {
                     </h3>
                     <ul
                       className={`space-y-2 font-mono text-sm text-white/80 ${
-                        i % 2 === 1 ? "md:ml-auto" : ""
+                        i % 2 === 1 ? "md:ml-auto md:flex md:flex-col md:items-end" : ""
                       }`}
                     >
                       {p.items.map((item) => (
-                        <li key={item} className="flex items-center gap-2 min-h-[1.25rem]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-neon shrink-0" aria-hidden />
+                        <li
+                          key={item}
+                          className={`flex items-center gap-2 min-h-[1.25rem] text-left ${
+                            i % 2 === 1 ? "md:justify-end" : ""
+                          }`}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-neon shrink-0 flex-shrink-0" aria-hidden />
                           <span>{item}</span>
                         </li>
                       ))}
