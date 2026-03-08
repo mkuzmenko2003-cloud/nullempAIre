@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { motion } from "framer-motion";
 import { generateAgentMessage, type AgentMessage } from "@/utils/generateAgentMessage";
 import { generateReasoningChain } from "@/utils/generateReasoningChain";
 import { getRandomArchiveFromGraphPool, type ArchiveEntry } from "@/data/archives";
@@ -105,12 +106,23 @@ export default function AIAgentTerminal({
 
   return (
     <section className="py-10 md:py-14 px-4 section-content">
-      <div className="max-w-7xl mx-auto terminal-block">
-        <div className="terminal-block-title">AI INTELLIGENCE TERMINAL</div>
-        <div className="terminal-block-dash">------------------------------------------------------------</div>
-        <p className="font-mono text-cyan/80 text-xs uppercase tracking-widest mb-6">
+      <div className="max-w-7xl mx-auto">
+        <motion.h2
+          className="font-display text-2xl sm:text-3xl font-bold text-neon mb-2 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          AI INTELLIGENCE TERMINAL
+        </motion.h2>
+        <motion.p
+          className="font-mono text-cyan/80 text-center text-xs uppercase tracking-widest mb-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
           Live agent network · Archive excavation simulation
-        </p>
+        </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 border-2 border-neon/40 rounded-none overflow-hidden bg-black/90 backdrop-blur-sm max-h-[320px]">
           {/* LEFT: Live AI conversation feed — capped height, fewer messages */}
