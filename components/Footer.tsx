@@ -1,24 +1,6 @@
 "use client";
 
-function PumpFunIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
-      <path
-        d="M6 6 L18 6 A6 6 0 0 1 18 18 L6 18 A6 6 0 0 1 6 6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
-  );
-}
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -36,7 +18,7 @@ export default function Footer() {
         <div className="flex items-center gap-6">
           <a
             href="#"
-            className="font-mono text-sm text-white/60 hover:text-neon transition-colors duration-200 flex items-center gap-2"
+            className="font-mono text-base md:text-lg text-white/70 hover:text-neon transition-colors duration-200 flex items-center gap-2"
             aria-label="Twitter"
           >
             <span className="text-neon/70">𝕏</span>
@@ -44,10 +26,17 @@ export default function Footer() {
           </a>
           <a
             href="#"
-            className="font-mono text-sm text-white/60 hover:text-neon transition-colors duration-200 flex items-center gap-2"
+            className="font-mono text-base md:text-lg text-white/70 hover:text-neon transition-colors duration-200 flex items-center gap-2"
             aria-label="Pump.fun"
           >
-            <PumpFunIcon className="w-5 h-5 text-neon/80 shrink-0" />
+            <Image
+              src="/pump-fun-seeklogo.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="w-6 h-6 shrink-0"
+              aria-hidden
+            />
             Pump.fun
           </a>
         </div>

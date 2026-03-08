@@ -145,7 +145,7 @@ export default function AIAgentTerminal({
             </div>
             <div
               ref={feedRef}
-              className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-1.5 font-mono text-xs min-h-0 scroll-smooth"
+              className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-1.5 font-mono text-xs min-h-0 scroll-smooth terminal-feed-scroll"
               style={{ scrollBehavior: "smooth" }}
             >
               {messages.slice(0, DISPLAY_MESSAGES).map((m) => (

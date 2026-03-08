@@ -225,3 +225,22 @@ body {
   background: #1a1a1a;
 }
 
+/* AI Terminal — Live agent feed scrollbar, тёмный */
+.terminal-feed-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #0d0d0d #000000;
+}
+.terminal-feed-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.terminal-feed-scroll::-webkit-scrollbar-track {
+  background: #000000;
+}
+.terminal-feed-scroll::-webkit-scrollbar-thumb {
+  background: #0d0d0d;
+  border-radius: 0;
+}
+.terminal-feed-scroll::-webkit-scrollbar-thumb:hover {
+  background: #1a1a1a;
+}
+
