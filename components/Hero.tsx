@@ -95,15 +95,15 @@ export default function Hero() {
           <motion.a
             href="#archive-library"
             className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-neon text-neon rounded-none hover:bg-neon hover:text-black transition-colors shadow-neon"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(0, 255, 156, 0.5)" }}
+            whileHover={{ scale: 1.02, boxShadow: "0 0 24px rgba(0, 255, 156, 0.4)" }}
             whileTap={{ scale: 0.98 }}
           >
             Enter Archive
           </motion.a>
           <motion.a
-            href="#simulation"
-            className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-cyan text-cyan rounded-none hover:bg-cyan hover:text-black transition-colors shadow-cyan"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(0, 234, 255, 0.5)" }}
+            href="#fake-ai-simulation"
+            className="px-8 py-4 font-mono text-sm uppercase tracking-wider border-2 border-cyan text-cyan rounded-none hover:bg-cyan hover:text-black transition-colors duration-200 shadow-cyan"
+            whileHover={{ scale: 1.02, boxShadow: "0 0 24px rgba(0, 234, 255, 0.4)" }}
             whileTap={{ scale: 0.98 }}
           >
             Watch AI Simulation

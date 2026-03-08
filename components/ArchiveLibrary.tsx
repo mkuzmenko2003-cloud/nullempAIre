@@ -144,7 +144,7 @@ export default function ArchiveLibrary() {
           {ARCHIVE_ARTIFACTS.map((artifact, i) => (
             <motion.button
               key={artifact.id}
-              className="text-left border border-neon/30 rounded-none p-4 bg-black/50 backdrop-blur-sm hover:border-neon/60 hover:shadow-[0_0_20px_rgba(0,255,156,0.1)] transition-all"
+              className="text-left border border-neon/30 rounded-none p-4 bg-black/50 backdrop-blur-sm transition-all duration-300 hover:border-neon/50 hover:shadow-[0_0_20px_rgba(0,255,156,0.12)]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

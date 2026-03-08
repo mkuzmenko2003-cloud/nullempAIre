@@ -29,23 +29,22 @@ const phases = [
 
 export default function Roadmap() {
   return (
-    <section id="roadmap" className="py-24 md:py-32 px-6 section-content">
+    <section id="roadmap" className="py-20 md:py-28 px-6 section-content">
       <div className="max-w-4xl mx-auto">
         <motion.h2
-          className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-neon mb-4 text-center"
-          initial={{ opacity: 0, y: 20 }}
+          className="font-display text-2xl sm:text-3xl font-bold text-neon mb-2 text-center"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           &gt; ROADMAP
         </motion.h2>
         <motion.p
-          className="font-mono text-cyan/80 text-center text-sm uppercase tracking-widest mb-16"
+          className="font-mono text-cyan/80 text-center text-xs uppercase tracking-widest mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
         >
           Timeline of the empire
         </motion.p>

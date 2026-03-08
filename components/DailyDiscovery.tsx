@@ -30,9 +30,10 @@ export default function DailyDiscovery() {
       <div className="max-w-2xl mx-auto">
         <motion.h2
           className="font-display text-2xl sm:text-3xl font-bold text-neon mb-2 text-center"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
           DAILY AI DISCOVERY
         </motion.h2>
@@ -46,11 +47,11 @@ export default function DailyDiscovery() {
         </motion.p>
 
         <motion.div
-          className="border-2 border-cyan/40 rounded-none p-6 md:p-8 bg-black/60 backdrop-blur-sm"
-          initial={{ opacity: 0, y: 20 }}
+          className="border-2 border-cyan/40 rounded-none p-6 md:p-8 bg-black/60 backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_0_24px_rgba(0,234,255,0.12)]"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          whileHover={{ boxShadow: "0 0 30px rgba(0, 234, 255, 0.15)" }}
+          transition={{ duration: 0.5 }}
         >
           <p className="font-mono text-cyan text-sm uppercase mb-4">
             DAY {dayNum} DISCOVERY

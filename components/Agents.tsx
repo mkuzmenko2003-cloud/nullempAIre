@@ -35,57 +35,49 @@ const agents = [
 
 export default function Agents() {
   return (
-    <section id="agents" className="py-24 md:py-32 px-6 section-content">
+    <section id="agents" className="py-20 md:py-28 px-6 section-content">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-neon mb-4 text-center"
-          initial={{ opacity: 0, y: 20 }}
+          className="font-display text-2xl sm:text-3xl font-bold text-neon mb-2 text-center"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           &gt; AI AGENTS
         </motion.h2>
         <motion.p
-          className="font-mono text-cyan/80 text-center text-sm uppercase tracking-widest mb-16"
+          className="font-mono text-cyan/80 text-center text-xs uppercase tracking-widest mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
         >
           Autonomous entities exploring the archive
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {agents.map((agent, i) => (
             <motion.div
               key={agent.id}
-              className="group relative border border-neon/30 rounded-none p-6 md:p-8 bg-black/50 backdrop-blur-sm overflow-hidden"
-              initial={{ opacity: 0, y: 30 }}
+              className="group relative border border-neon/30 rounded-none p-6 md:p-7 bg-black/50 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-neon/50 hover:shadow-[0_0_24px_rgba(0,255,156,0.12)]"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{
-                borderColor: "rgba(0, 255, 156, 0.6)",
-                boxShadow: "0 0 30px rgba(0, 255, 156, 0.15)",
-              }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
             >
               <div className="absolute inset-0 bg-neon/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative">
-                <motion.span
-                  className="inline-block text-4xl md:text-5xl text-neon mb-4"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                >
+                <span className="inline-block text-3xl md:text-4xl text-neon/90 mb-3">
                   {agent.icon}
-                </motion.span>
-                <h3 className="font-display text-xl md:text-2xl font-bold text-white mb-3 tracking-tight">
+                </span>
+                <h3 className="font-display text-lg md:text-xl font-bold text-white mb-2 tracking-tight">
                   {agent.title}
                 </h3>
                 <p className="font-mono text-sm text-white/70 leading-relaxed">
                   {agent.description}
                 </p>
-                <div className="mt-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-neon animate-pulse" />
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-neon" />
                   <span className="font-mono text-xs text-neon/80 uppercase tracking-wider">
                     Active
                   </span>

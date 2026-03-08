@@ -6,11 +6,9 @@ import BootScreen from "./BootScreen";
 import Hero from "./Hero";
 import About from "./About";
 import FakeAISimulation from "./FakeAISimulation";
-import AISimulation from "./AISimulation";
 import ArchiveLibrary from "./ArchiveLibrary";
 import Agents from "./Agents";
 import Terminal from "./Terminal";
-import ActivityFeed from "./ActivityFeed";
 import TokenSection from "./TokenSection";
 import Roadmap from "./Roadmap";
 import DailyDiscovery from "./DailyDiscovery";
@@ -55,11 +53,9 @@ export default function AppShell() {
           <AIAgentTerminal onArchiveChange={(a) => setHighlightedArchiveId(a?.id ?? null)} />
           <ArchiveNetworkGraph highlightedArchiveId={highlightedArchiveId} />
           <FakeAISimulation />
-          <AISimulation />
           <ArchiveLibrary />
           <Agents />
           <Terminal />
-          <ActivityFeed />
           <TokenSection />
           <Roadmap />
           <DailyDiscovery />

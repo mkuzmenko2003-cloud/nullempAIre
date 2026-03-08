@@ -11,36 +11,32 @@ const functions = [
 
 export default function TokenSection() {
   return (
-    <section id="token" className="py-24 md:py-32 px-6 section-content">
+    <section id="token" className="py-20 md:py-28 px-6 section-content">
       <div className="max-w-4xl mx-auto">
         <motion.h2
-          className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-neon mb-4 text-center"
-          initial={{ opacity: 0, y: 20 }}
+          className="font-display text-2xl sm:text-3xl font-bold text-neon mb-2 text-center"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           &gt; TOKEN
         </motion.h2>
         <motion.p
-          className="font-mono text-cyan/80 text-center text-sm uppercase tracking-widest mb-16"
+          className="font-mono text-cyan/80 text-center text-xs uppercase tracking-widest mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
         >
           Core asset of the empire
         </motion.p>
 
         <motion.div
-          className="relative border-2 border-neon/50 rounded-none p-8 md:p-12 bg-black/60 backdrop-blur-sm overflow-hidden"
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          className="relative border-2 border-neon/50 rounded-none p-8 md:p-10 bg-black/60 backdrop-blur-sm overflow-hidden transition-shadow duration-300 hover:shadow-[0_0_32px_rgba(0,255,156,0.15)]"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          whileHover={{
-            boxShadow: "0 0 40px rgba(0, 255, 156, 0.2)",
-          }}
+          transition={{ duration: 0.5 }}
         >
           <div className="absolute top-0 right-0 w-64 h-64 bg-neon/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
