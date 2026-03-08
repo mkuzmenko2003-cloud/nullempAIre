@@ -227,3 +227,11 @@ export function getArchivesByTag(tag: string): ArchiveEntry[] {
 export function getRandomArchive(): ArchiveEntry {
   return ARCHIVES[Math.floor(Math.random() * ARCHIVES.length)];
 }
+
+/** Number of archives shown in the Archive network graph (terminal syncs with this set). */
+export const ARCHIVES_GRAPH_SIZE = 60;
+
+export function getRandomArchiveFromGraphPool(): ArchiveEntry {
+  const pool = ARCHIVES.slice(0, ARCHIVES_GRAPH_SIZE);
+  return pool[Math.floor(Math.random() * pool.length)];
+}

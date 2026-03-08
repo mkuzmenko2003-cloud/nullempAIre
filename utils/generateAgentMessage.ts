@@ -2,9 +2,8 @@
  * Generates live AI agent messages: random archive + random agent → message.
  */
 
-import { getRandomArchive } from "@/data/archives";
+import { getRandomArchive, type ArchiveEntry } from "@/data/archives";
 import { getRandomAgent, type Agent } from "@/data/agents";
-import type { ArchiveEntry } from "@/data/archives";
 
 export type AgentMessage = {
   id: string;
@@ -107,25 +106,25 @@ function getPhrasesForAgent(agentId: string): string[] {
   return map[agentId] || ["Processing..."];
 }
 
-export function generateAgentMessage(): AgentMessage {
-  const archive = getRandomArchive();
+export function generateAgentMessage(archive?: ArchiveEntry): AgentMessage {
+  const arch = archive ?? getRandomArchive();
   const agent = getRandomAgent();
   const phrases = getPhrasesForAgent(agent.id);
   const phrase = phrases[Math.floor(Math.random() * phrases.length)];
 
   let text: string;
   if (agent.id === "ARCHIVIST") {
-    text = `${phrase} ${archive.title} (${archive.year})`;
+    text = `${phrase} ${arch.title} (${arch.year})`;
   } else if (agent.id === "ANALYST" || agent.id === "SIGNAL_SCANNER" || agent.id === "MEMETIC_ENGINE") {
-    text = `${phrase} [${archive.title}]`;
+    text = `${phrase} [${arch.title}]`;
   } else {
-    text = `${phrase} [${archive.title}]`;
+    text = `${phrase} [${arch.title}]`;
   }
 
   return {
     id: `msg-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     agent,
-    archive,
+    archive: arch,
     text,
     timestamp: Date.now(),
   };

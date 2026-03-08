@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { generateAgentMessage, type AgentMessage } from "@/utils/generateAgentMessage";
 import { generateReasoningChain } from "@/utils/generateReasoningChain";
-import { getRandomArchive } from "@/data/archives";
-import type { ArchiveEntry } from "@/data/archives";
+import { getRandomArchiveFromGraphPool, type ArchiveEntry } from "@/data/archives";
 
 const MAX_MESSAGES = 18;
-const MESSAGE_INTERVAL_MS = 14000; // one message every 14 sec — realistic, not too fast
-const REASONING_TYPING_MS = 120;
+const REASONING_TYPING_MS = 90;
 const DISPLAY_MESSAGES = 10;
+const DELAY_AFTER_REASONING_MS = 2500; // pause after all steps printed, then next archive
 const SYSTEM_STATUS_MSGS = [
   "Scanning archive clusters...",
   "Analyzing memetic signals...",
@@ -34,26 +33,29 @@ export default function AIAgentTerminal({
   const [reasoningDisplay, setReasoningDisplay] = useState("");
   const [systemStatus, setSystemStatus] = useState(SYSTEM_STATUS_MSGS[0]);
   const feedRef = useRef<HTMLDivElement>(null);
-  const reasoningChainRef = useRef<string[]>([]);
+  const completedOnceRef = useRef(false);
 
-  // Live agent messages every 9 sec (reduced from 2–4 to prevent flood and lag)
-  useEffect(() => {
-    const tick = () => {
-      const msg = generateAgentMessage();
-      setMessages((prev) => [msg, ...prev].slice(0, MAX_MESSAGES));
-      setCurrentArchive(msg.archive);
-      onArchiveChange?.(msg.archive);
-      reasoningChainRef.current = generateReasoningChain(msg.archive);
-      setReasoningSteps(reasoningChainRef.current);
-      setReasoningIndex(0);
-      setReasoningDisplay("");
-    };
-    const id = setInterval(tick, MESSAGE_INTERVAL_MS);
-    tick(); // one message on mount
-    return () => clearInterval(id);
+  // One cycle: new archive + reasoning chain. Next cycle only after reasoning is fully printed.
+  // Pick archive from graph pool so the same node is highlighted in Archive network.
+  const runCycle = useCallback(() => {
+    const archive = getRandomArchiveFromGraphPool();
+    const msg = generateAgentMessage(archive);
+    setMessages((prev) => [msg, ...prev].slice(0, MAX_MESSAGES));
+    setCurrentArchive(msg.archive);
+    onArchiveChange?.(msg.archive);
+    const steps = generateReasoningChain(msg.archive);
+    setReasoningSteps(steps);
+    setReasoningIndex(0);
+    setReasoningDisplay("");
+    completedOnceRef.current = false;
   }, [onArchiveChange]);
 
-  // Smooth scroll to top when new message arrives (no jump, no flicker)
+  // First cycle on mount
+  useEffect(() => {
+    runCycle();
+  }, [runCycle]);
+
+  // Smooth scroll to top when new message arrives
   const prevLenRef = useRef(0);
   useEffect(() => {
     if (messages.length > prevLenRef.current && feedRef.current) {
@@ -79,6 +81,17 @@ export default function AIAgentTerminal({
     }, REASONING_TYPING_MS);
     return () => clearInterval(id);
   }, [reasoningSteps, reasoningIndex]);
+
+  // After ALL reasoning steps are printed, wait briefly then start next archive (no new message until then)
+  useEffect(() => {
+    const allDone = reasoningSteps.length > 0 && reasoningIndex >= reasoningSteps.length;
+    if (!allDone || completedOnceRef.current) return;
+    completedOnceRef.current = true;
+    const t = setTimeout(() => {
+      runCycle();
+    }, DELAY_AFTER_REASONING_MS);
+    return () => clearTimeout(t);
+  }, [reasoningSteps.length, reasoningIndex, runCycle]);
 
   // Rotate system status every 12 sec (no flicker, calm)
   useEffect(() => {
