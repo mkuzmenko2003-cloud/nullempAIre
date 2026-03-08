@@ -2,7 +2,9 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ARCHIVES, ARCHIVES_GRAPH_SIZE, type ArchiveEntry } from "@/data/archives";
+import { ARCHIVES, type ArchiveEntry } from "@/data/archives";
+
+const NODE_COUNT = 60;
 const RADIUS = 200;
 const NODE_R = 4;
 const NODE_R_HOVER = 6;
@@ -12,7 +14,7 @@ type Node = { id: number; archive: ArchiveEntry; x: number; y: number };
 type Edge = { a: number; b: number };
 
 function buildGraph(archives: ArchiveEntry[]): { nodes: Node[]; edges: Edge[] } {
-  const subset = archives.slice(0, ARCHIVES_GRAPH_SIZE);
+  const subset = archives.slice(0, NODE_COUNT);
   const nodes: Node[] = [];
   const edges: Edge[] = [];
   const tagToIds = new Map<string, number[]>();
@@ -61,7 +63,6 @@ export default function ArchiveNetworkGraph({
 
   const { nodes, edges } = useMemo(() => buildGraph(ARCHIVES), []);
 
-  // Sync with terminal: smooth update when highlightedArchiveId changes (no flicker)
   useEffect(() => {
     setSelectedId(highlightedArchiveId);
   }, [highlightedArchiveId]);

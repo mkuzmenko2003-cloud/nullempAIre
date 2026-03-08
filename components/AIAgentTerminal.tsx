@@ -4,12 +4,12 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { generateAgentMessage, type AgentMessage } from "@/utils/generateAgentMessage";
 import { generateReasoningChain } from "@/utils/generateReasoningChain";
-import { getRandomArchiveFromGraphPool, type ArchiveEntry } from "@/data/archives";
+import type { ArchiveEntry } from "@/data/archives";
 
 const MAX_MESSAGES = 18;
-const REASONING_TYPING_MS = 90;
+const REASONING_TYPING_MS = 100;
+const REASONING_DONE_DELAY_MS = 2500; // pause after all steps typed, then next archive
 const DISPLAY_MESSAGES = 10;
-const DELAY_AFTER_REASONING_MS = 2500; // pause after all steps printed, then next archive
 const SYSTEM_STATUS_MSGS = [
   "Scanning archive clusters...",
   "Analyzing memetic signals...",
@@ -33,27 +33,51 @@ export default function AIAgentTerminal({
   const [reasoningDisplay, setReasoningDisplay] = useState("");
   const [systemStatus, setSystemStatus] = useState(SYSTEM_STATUS_MSGS[0]);
   const feedRef = useRef<HTMLDivElement>(null);
-  const completedOnceRef = useRef(false);
+  const scheduledNextRef = useRef(false);
+  const nextTickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // One cycle: new archive + reasoning chain. Next cycle only after reasoning is fully printed.
-  // Pick archive from graph pool so the same node is highlighted in Archive network.
-  const runCycle = useCallback(() => {
-    const archive = getRandomArchiveFromGraphPool();
-    const msg = generateAgentMessage(archive);
+  const tick = useCallback(() => {
+    scheduledNextRef.current = false;
+    if (nextTickTimeoutRef.current) {
+      clearTimeout(nextTickTimeoutRef.current);
+      nextTickTimeoutRef.current = null;
+    }
+    const msg = generateAgentMessage();
     setMessages((prev) => [msg, ...prev].slice(0, MAX_MESSAGES));
     setCurrentArchive(msg.archive);
     onArchiveChange?.(msg.archive);
-    const steps = generateReasoningChain(msg.archive);
-    setReasoningSteps(steps);
+    const chain = generateReasoningChain(msg.archive);
+    setReasoningSteps(chain);
     setReasoningIndex(0);
     setReasoningDisplay("");
-    completedOnceRef.current = false;
   }, [onArchiveChange]);
 
-  // First cycle on mount
+  // First tick on mount; next ticks only after reasoning chain is fully typed
   useEffect(() => {
-    runCycle();
-  }, [runCycle]);
+    tick();
+  }, [tick]);
+
+  // When all reasoning steps are done, schedule next archive after a short pause
+  useEffect(() => {
+    if (
+      reasoningSteps.length === 0 ||
+      reasoningIndex < reasoningSteps.length ||
+      scheduledNextRef.current
+    )
+      return;
+    scheduledNextRef.current = true;
+    nextTickTimeoutRef.current = setTimeout(() => {
+      nextTickTimeoutRef.current = null;
+      scheduledNextRef.current = false;
+      tick();
+    }, REASONING_DONE_DELAY_MS);
+    return () => {
+      if (nextTickTimeoutRef.current) {
+        clearTimeout(nextTickTimeoutRef.current);
+        nextTickTimeoutRef.current = null;
+      }
+    };
+  }, [reasoningSteps.length, reasoningIndex, tick]);
 
   // Smooth scroll to top when new message arrives
   const prevLenRef = useRef(0);
@@ -64,7 +88,7 @@ export default function AIAgentTerminal({
     prevLenRef.current = messages.length;
   }, [messages.length]);
 
-  // Type reasoning steps one by one
+  // Type reasoning steps one by one (no new archive until this finishes)
   useEffect(() => {
     if (reasoningSteps.length === 0) return;
     if (reasoningIndex >= reasoningSteps.length) return;
@@ -81,17 +105,6 @@ export default function AIAgentTerminal({
     }, REASONING_TYPING_MS);
     return () => clearInterval(id);
   }, [reasoningSteps, reasoningIndex]);
-
-  // After ALL reasoning steps are printed, wait briefly then start next archive (no new message until then)
-  useEffect(() => {
-    const allDone = reasoningSteps.length > 0 && reasoningIndex >= reasoningSteps.length;
-    if (!allDone || completedOnceRef.current) return;
-    completedOnceRef.current = true;
-    const t = setTimeout(() => {
-      runCycle();
-    }, DELAY_AFTER_REASONING_MS);
-    return () => clearTimeout(t);
-  }, [reasoningSteps.length, reasoningIndex, runCycle]);
 
   // Rotate system status every 12 sec (no flicker, calm)
   useEffect(() => {
