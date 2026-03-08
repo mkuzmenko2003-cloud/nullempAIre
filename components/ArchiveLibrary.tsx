@@ -2,18 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ARCHIVE_ARTIFACTS, type ArchiveArtifact } from "@/lib/archiveData";
+import { ARCHIVE_ARTIFACTS, getArtifactById, type ArchiveArtifact } from "@/lib/archiveData";
 
 function ArchiveAnalysisModal({
   artifact,
   onClose,
   onAgree,
   onReject,
+  onSelectRelated,
 }: {
   artifact: ArchiveArtifact;
   onClose: () => void;
   onAgree: () => void;
   onReject: () => void;
+  onSelectRelated?: (a: ArchiveArtifact) => void;
 }) {
   const [voted, setVoted] = useState<"agree" | "reject" | null>(null);
 
@@ -28,64 +30,198 @@ function ArchiveAnalysisModal({
     setTimeout(() => onClose(), 400);
   };
 
+  const related = (artifact.relatedIds ?? [])
+    .map((id) => getArtifactById(id))
+    .filter((a): a is ArchiveArtifact => a != null);
+
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
       <motion.div
-        className="border-2 border-neon/50 rounded-none bg-black max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-[0_0_40px_rgba(0,255,156,0.2)]"
-        initial={{ scale: 0.95, opacity: 0 }}
+        className="border-2 border-neon/50 rounded-none bg-black w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-[0_0_60px_rgba(0,255,156,0.15)]"
+        initial={{ scale: 0.96, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
+        exit={{ scale: 0.96, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6">
-          <div className="flex justify-between items-start mb-6">
-            <h3 className="font-display text-xl font-bold text-neon">
-              ARCHIVE ANALYSIS
-            </h3>
-            <button
-              onClick={onClose}
-              className="text-white/60 hover:text-white font-mono text-sm"
-              aria-label="Close"
-            >
-              ✕
-            </button>
-          </div>
+        <div className="sticky top-0 z-10 flex justify-between items-center px-6 py-4 border-b border-neon/30 bg-black/95 backdrop-blur-sm">
+          <h3 className="font-display text-lg font-bold text-neon">
+            ARCHIVE DATABASE
+          </h3>
+          <button
+            onClick={onClose}
+            className="text-white/60 hover:text-white font-mono text-sm p-1"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
 
-          <div className="font-mono text-sm space-y-4">
-            <p>
-              <span className="text-cyan/80">ARCHIVE ID:</span>{" "}
-              <span className="text-white">{artifact.id}</span>
+        <div className="p-6 space-y-8">
+          {/* Header */}
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-2">
+              {artifact.title}
+            </h2>
+            <p className="font-mono text-cyan/80 text-sm">
+              {artifact.year} · {artifact.category} · {artifact.source}
             </p>
-            <p>
-              <span className="text-cyan/80">CATEGORY:</span>{" "}
-              <span className="text-white">{artifact.category}</span>
-            </p>
-            <p>
-              <span className="text-cyan/80">SOURCE:</span>{" "}
-              <span className="text-white">{artifact.source}</span>
-            </p>
-            <p>
-              <span className="text-cyan/80">YEAR:</span>{" "}
-              <span className="text-white">{artifact.year}</span>
+            <p className="font-mono text-white/50 text-xs mt-1">
+              ID: {artifact.id}
+              {artifact.discoveryDate && ` · Discovered: ${artifact.discoveryDate}`}
             </p>
           </div>
 
-          <div className="mt-6 pt-6 border-t border-neon/30">
-            <p className="font-mono text-cyan/80 text-xs uppercase mb-2">
-              AI INTERPRETATION:
-            </p>
-            <p className="font-mono text-white/90 leading-relaxed">
+          {/* Description */}
+          {artifact.description && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                Overview
+              </h4>
+              <p className="font-mono text-white/90 text-sm leading-relaxed">
+                {artifact.description}
+              </p>
+            </section>
+          )}
+
+          {/* Timeline */}
+          {artifact.timeline && artifact.timeline.length > 0 && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                Timeline
+              </h4>
+              <ul className="space-y-2">
+                {artifact.timeline.map((item, i) => (
+                  <li key={i} className="flex gap-4 font-mono text-sm">
+                    <span className="text-neon/80 shrink-0 w-20">{item.year}</span>
+                    <span className="text-white/80">{item.event}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* AI Interpretation */}
+          <section className="pt-4 border-t border-neon/20">
+            <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+              AI Interpretation
+            </h4>
+            <p className="font-mono text-white/90 text-sm leading-relaxed">
               {artifact.interpretation}
             </p>
-          </div>
+          </section>
 
-          <div className="mt-8 flex gap-4">
+          {/* Agent notes */}
+          {artifact.agentNotes && artifact.agentNotes.length > 0 && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                Agent notes
+              </h4>
+              <ul className="space-y-2">
+                {artifact.agentNotes.map((note, i) => (
+                  <li
+                    key={i}
+                    className="font-mono text-xs text-white/70 border-l-2 border-neon/40 pl-3 py-1"
+                  >
+                    {note}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Metrics */}
+          {artifact.metrics && artifact.metrics.length > 0 && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                Metrics
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {artifact.metrics.map((m, i) => (
+                  <div
+                    key={i}
+                    className="border border-neon/20 rounded-none px-4 py-3 bg-black/50"
+                  >
+                    <p className="font-mono text-cyan/70 text-xs">{m.label}</p>
+                    <p className="font-mono text-neon text-sm font-semibold mt-0.5">
+                      {m.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Tags */}
+          {artifact.tags && artifact.tags.length > 0 && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                Tags
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {artifact.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="font-mono text-xs px-3 py-1 border border-neon/30 text-white/80"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Related archives */}
+          {related.length > 0 && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                Related archives
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {related.map((a) => (
+                  <button
+                    key={a.id}
+                    type="button"
+                    onClick={() => onSelectRelated?.(a)}
+                    className="font-mono text-xs px-3 py-2 border border-cyan/40 text-cyan/90 hover:bg-cyan/10 hover:border-cyan/60 transition-colors text-left"
+                  >
+                    {a.title} <span className="text-white/50">({a.year})</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Links */}
+          {artifact.links && artifact.links.length > 0 && (
+            <section>
+              <h4 className="font-mono text-cyan/90 text-xs uppercase tracking-widest mb-3">
+                External references
+              </h4>
+              <ul className="space-y-2">
+                {artifact.links.map((link, i) => (
+                  <li key={i}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-sm text-neon/90 hover:text-neon underline"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Actions */}
+          <div className="pt-6 border-t border-neon/30 flex gap-4">
             <button
               onClick={handleAgree}
               disabled={voted !== null}
@@ -137,7 +273,7 @@ export default function ArchiveLibrary() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          Select an artifact to view AI analysis
+          Select an artifact to explore the archive database
         </motion.p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -159,20 +295,22 @@ export default function ArchiveLibrary() {
               </p>
               <p className="font-mono text-xs text-neon/70 mt-2 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-neon" />
-                AI analysis available
+                Full database available
               </p>
             </motion.button>
           ))}
         </div>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {selected && (
           <ArchiveAnalysisModal
+            key={selected.id}
             artifact={selected}
             onClose={() => setSelected(null)}
             onAgree={() => {}}
             onReject={() => {}}
+            onSelectRelated={(a) => setSelected(a)}
           />
         )}
       </AnimatePresence>
