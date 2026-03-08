@@ -52,6 +52,8 @@ export default function AppShell() {
         <main>
           <Hero />
           <About />
+          <AIAgentTerminal onArchiveChange={(a) => setHighlightedArchiveId(a?.id ?? null)} />
+          <ArchiveNetworkGraph highlightedArchiveId={highlightedArchiveId} />
           <FakeAISimulation />
           <AISimulation />
           <ArchiveLibrary />
@@ -60,8 +62,6 @@ export default function AppShell() {
           <ActivityFeed />
           <TokenSection />
           <Roadmap />
-          <AIAgentTerminal onArchiveChange={(a) => setHighlightedArchiveId(a?.id ?? null)} />
-          <ArchiveNetworkGraph highlightedArchiveId={highlightedArchiveId} />
           <DailyDiscovery />
           <Footer />
           <HiddenTerminal />

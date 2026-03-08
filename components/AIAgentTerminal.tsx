@@ -7,10 +7,10 @@ import { generateReasoningChain } from "@/utils/generateReasoningChain";
 import { getRandomArchive } from "@/data/archives";
 import type { ArchiveEntry } from "@/data/archives";
 
-const MAX_MESSAGES = 20;
-const MESSAGE_INTERVAL_MS = 9000; // one message every 9 sec (was 2–4 sec)
-const REASONING_TYPING_MS = 100;
-const DISPLAY_MESSAGES = 12;
+const MAX_MESSAGES = 18;
+const MESSAGE_INTERVAL_MS = 14000; // one message every 14 sec — realistic, not too fast
+const REASONING_TYPING_MS = 120;
+const DISPLAY_MESSAGES = 10;
 const SYSTEM_STATUS_MSGS = [
   "Scanning archive clusters...",
   "Analyzing memetic signals...",
@@ -53,6 +53,15 @@ export default function AIAgentTerminal({
     return () => clearInterval(id);
   }, [onArchiveChange]);
 
+  // Smooth scroll to top when new message arrives (no jump, no flicker)
+  const prevLenRef = useRef(0);
+  useEffect(() => {
+    if (messages.length > prevLenRef.current && feedRef.current) {
+      feedRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    prevLenRef.current = messages.length;
+  }, [messages.length]);
+
   // Type reasoning steps one by one
   useEffect(() => {
     if (reasoningSteps.length === 0) return;
@@ -71,11 +80,14 @@ export default function AIAgentTerminal({
     return () => clearInterval(id);
   }, [reasoningSteps, reasoningIndex]);
 
-  // Rotate system status every 8 sec (less flicker)
+  // Rotate system status every 12 sec (no flicker, calm)
   useEffect(() => {
     const id = setInterval(() => {
-      setSystemStatus(SYSTEM_STATUS_MSGS[Math.floor(Math.random() * SYSTEM_STATUS_MSGS.length)]);
-    }, 8000);
+      setSystemStatus((prev) => {
+        const next = SYSTEM_STATUS_MSGS[Math.floor(Math.random() * SYSTEM_STATUS_MSGS.length)];
+        return next === prev ? SYSTEM_STATUS_MSGS[(SYSTEM_STATUS_MSGS.indexOf(prev) + 1) % SYSTEM_STATUS_MSGS.length] : next;
+      });
+    }, 12000);
     return () => clearInterval(id);
   }, []);
 
@@ -107,12 +119,13 @@ export default function AIAgentTerminal({
             </div>
             <div
               ref={feedRef}
-              className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-1.5 font-mono text-xs min-h-0"
+              className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-1.5 font-mono text-xs min-h-0 scroll-smooth"
+              style={{ scrollBehavior: "smooth" }}
             >
               {messages.slice(0, DISPLAY_MESSAGES).map((m) => (
                 <div
                   key={m.id}
-                  className="border-l-2 border-cyan/50 pl-2 py-0.5 text-white/90"
+                  className="border-l-2 border-cyan/50 pl-2 py-0.5 text-white/90 feed-row"
                 >
                   <span className="text-cyan/90">[{m.agent.name}]</span>{" "}
                   {m.text}
@@ -128,12 +141,7 @@ export default function AIAgentTerminal({
             </div>
             <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 font-mono text-sm space-y-2 min-h-0">
               {currentArchive ? (
-                <motion.div
-                  key={currentArchive.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="space-y-2"
-                >
+                <div key={currentArchive.id} className="space-y-2 opacity-100 transition-opacity duration-300">
                   <p>
                     <span className="text-cyan/80">title:</span>{" "}
                     <span className="text-white">{currentArchive.title}</span>
@@ -166,7 +174,7 @@ export default function AIAgentTerminal({
                     <span className="text-cyan/80">summary:</span>{" "}
                     <span className="text-white/80">{currentArchive.summary}</span>
                   </p>
-                </motion.div>
+                </div>
               ) : (
                 <p className="text-white/40">Waiting for archive...</p>
               )}
@@ -193,9 +201,9 @@ export default function AIAgentTerminal({
           </div>
         </div>
 
-        {/* BOTTOM: System status */}
+        {/* BOTTOM: System status — no pulse to avoid flicker */}
         <div className="mt-4 px-4 py-3 border border-neon/30 rounded-none bg-black/60 font-mono text-xs text-cyan/90 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-neon animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-neon" />
           {systemStatus}
         </div>
       </div>
