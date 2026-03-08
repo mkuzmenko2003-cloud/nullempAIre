@@ -70,7 +70,7 @@ export default function Roadmap() {
 
                 <div
                   className={`ml-14 md:ml-0 md:w-[calc(50%-2rem)] ${
-                    i % 2 === 1 ? "md:pr-8 md:text-right" : "md:pl-8"
+                    i % 2 === 1 ? "md:pr-8" : "md:pl-8"
                   }`}
                 >
                   <div className="border border-neon/40 rounded-none p-6 bg-black/50 backdrop-blur-sm hover:border-neon/60 transition-colors">
@@ -80,18 +80,9 @@ export default function Roadmap() {
                     <h3 className="font-display text-xl md:text-2xl font-bold text-white mt-2 mb-4">
                       {p.title}
                     </h3>
-                    <ul
-                      className={`space-y-2 font-mono text-sm text-white/80 ${
-                        i % 2 === 1 ? "md:ml-auto md:flex md:flex-col md:items-end" : ""
-                      }`}
-                    >
+                    <ul className="space-y-2 font-mono text-sm text-white/80">
                       {p.items.map((item) => (
-                        <li
-                          key={item}
-                          className={`flex items-center gap-2 min-h-[1.25rem] text-left ${
-                            i % 2 === 1 ? "md:justify-end" : ""
-                          }`}
-                        >
+                        <li key={item} className="flex items-center gap-2 min-h-[1.25rem]">
                           <span className="w-1.5 h-1.5 rounded-full bg-neon shrink-0 flex-shrink-0" aria-hidden />
                           <span>{item}</span>
                         </li>
