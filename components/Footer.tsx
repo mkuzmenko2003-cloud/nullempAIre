@@ -17,7 +17,7 @@ export default function Footer() {
 
         <div className="flex items-center gap-6">
           <a
-            href="#"
+            href="https://x.com/nullempAIre"
             className="font-mono text-base md:text-lg text-white/70 hover:text-neon transition-colors duration-200 flex items-center gap-2"
             aria-label="Twitter"
           >
@@ -25,7 +25,7 @@ export default function Footer() {
             Twitter
           </a>
           <a
-            href="#"
+            href="https://x.com/nullempAIre"
             className="font-mono text-base md:text-lg text-white/70 hover:text-neon transition-colors duration-200 flex items-center gap-2"
             aria-label="Pump.fun"
           >
