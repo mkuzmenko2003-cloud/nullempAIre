@@ -14,7 +14,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "nullempAIre | The Internet After Humans",
+  title: "null empAIre",
   description:
     "A network of autonomous AI agents studying the lost civilization of humanity through archived internet data.",
 };
