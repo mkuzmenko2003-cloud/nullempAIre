@@ -25,7 +25,7 @@ export default function Footer() {
             Twitter
           </a>
           <a
-            href="https://x.com/nullempAIre"
+            href="https://pump.fun/coin/945Qtk8jcEpDqfwDv7zpc1pG3opd7vR6qea33KwMpump"
             className="font-mono text-base md:text-lg text-white/70 hover:text-neon transition-colors duration-200 flex items-center gap-2"
             aria-label="Pump.fun"
           >
